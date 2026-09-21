@@ -270,13 +270,16 @@
       var jpEl = document.createElement('div');
       jpEl.className = 'card-jp' + (config.isSentence ? ' is-sentence' : '');
       jpEl.lang = 'ja';
-      /* 스피커 버튼을 본문(jp) 오른쪽 옆에 둔다. targetEl은 그대로 가운데 정렬된다(PRD 3.6). */
-      var jpSpeaker = KanaApp.ui.attachSpeaker(jpEl, function () {
+      jpWrap.appendChild(jpEl);
+      /* 스피커는 카드 바깥 오른쪽 아래에 둔다 — 긴 단어·문장에서 화면 밖으로 밀리지 않게(사용자 확정). */
+      var speakBtn = KanaApp.makeIconButton('speak', '소리 듣기');
+      speakBtn.classList.add('btn-speak', 'card-speak');
+      speakBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
         if (!currentItem) return;
         var text = typeof config.getSpeakText === 'function' ? config.getSpeakText(currentItem) : currentItem.jp;
         KanaApp.tts.speakOrNotify(text);
-      }, { ariaLabel: '소리 듣기' });
-      jpWrap.appendChild(jpSpeaker.anchor);
+      });
 
       var tagsEl = document.createElement('div');
       tagsEl.className = 'card-tags';
@@ -300,8 +303,13 @@
       var positionEl = document.createElement('p');
       positionEl.className = 'card-position';
 
+      var underCard = document.createElement('div');
+      underCard.className = 'card-under';
+      underCard.appendChild(positionEl);
+      underCard.appendChild(speakBtn);
+
       wrap.appendChild(card);
-      wrap.appendChild(positionEl);
+      wrap.appendChild(underCard);
 
       var controlBar = document.createElement('div');
       controlBar.className = 'control-bar';

@@ -1,5 +1,5 @@
 /* KanaApp 서비스 워커: 앱 셸 프리캐시 + cache-first */
-var CACHE_VERSION = 'kanaapp-cache-v5';
+var CACHE_VERSION = 'kanaapp-cache-v6';
 
 var PRECACHE_URLS = [
   './',

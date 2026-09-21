@@ -6,7 +6,7 @@
   KanaApp.views = KanaApp.views || {};
 
   /* ---------- 앱 버전 (PRD 3.10 설정 화면에 표시. sw.js CACHE_VERSION과 함께 올린다) ---------- */
-  KanaApp.version = '2.0.0';
+  KanaApp.version = '2.0.1';
 
   /* ---------- 테마 (PRD 2, 3.10): 라이트/다크, localStorage 저장, OS 설정을 따르지 않는다 ----------
    * index.html의 head 인라인 스크립트가 첫 페인트 전에 같은 localStorage 키를 읽어

@@ -831,7 +831,7 @@ html.is-home #app-header { display: none; }
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: 28px 20px;
-  margin: auto 0;
+  margin: auto 0 0;
   text-align: center;
   cursor: pointer;
   touch-action: pan-y;
@@ -849,9 +849,17 @@ html.is-home #app-header { display: none; }
   .trainer-card.bounce { animation: none; }
 }
 
+.card-under {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0 auto;
+  padding-left: 4px;
+}
 .card-position {
-  margin: 10px 0 0;
-  text-align: center;
+  margin: 0;
   font-size: 0.78rem;
   color: var(--ink-faint);
 }
@@ -1267,7 +1275,7 @@ html.is-home #app-header { display: none; }
 
 /* ---------- 반응형 ---------- */
 @media (max-width: 380px) {
-  .kana-grid { grid-template-columns: 22px repeat(var(--kana-cols), 1fr); gap: 3px; }
+  .kana-grid { gap: 3px; }
   .kana-cell-sub { font-size: 0.55rem; }
   .card-jp { font-size: 40px; }
   .card-jp.is-sentence { font-size: 24px; }
