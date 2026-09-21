@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>
+/* 테마 플리커 방지: 첫 페인트 전에 저장된 테마를 읽어 data-theme를 미리 세팅한다.
+ * OS의 다크 모드 설정은 따르지 않는다(PRD 2 · 3.10 확정 사항) — localStorage만 본다. */
+(function () {
+  var t = 'light';
+  try {
+    var v = window.localStorage.getItem('kanaapp.theme');
+    if (v === 'dark') t = 'dark';
+  } catch (e) { /* 저장소 접근 불가(프라이빗 모드 등)이면 라이트로 시작 */ }
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>카나퐁</title>
+<meta name="description" content="히라가나·가타카나와 쉬운 단어·문장을 익히는 개인용 학습 앱">
+<meta name="theme-color" content="#FBFBFA" id="meta-theme-color">
+<script>
+(function () {
+  var meta = document.getElementById('meta-theme-color');
+  if (meta && document.documentElement.getAttribute('data-theme') === 'dark') {
+    meta.setAttribute('content', '#0E0F11');
+  }
+})();
+</script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>window.KanaApp = window.KanaApp || {};</script>
+
+<div id="app-shell">
+  <header id="app-header">
+    <button id="btn-back" type="button" aria-label="뒤로"></button>
+    <h1 id="app-title">카나퐁</h1>
+    <span id="header-spacer" aria-hidden="true"></span>
+  </header>
+  <main id="app" role="main"></main>
+</div>
+
+<div id="modal-root" aria-live="polite"></div>
+
+<!-- 데이터 (다른 에이전트가 작성 중: js/data/kana.js, js/data/words.js, js/data/sentences.js, js/data/strokes.js) -->
+<script src="js/data/kana.js"></script>
+<script src="js/data/words.js"></script>
+<script src="js/data/sentences.js"></script>
+<script src="js/data/strokes.js"></script>
+
+<!-- 앱 코드 -->
+<script src="js/core.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/strokes-player.js"></script>
+<script src="js/trainer.js"></script>
+<script src="js/views/home.js"></script>
+<script src="js/views/chart.js"></script>
+<script src="js/views/flash.js"></script>
+<script src="js/views/words.js"></script>
+<script src="js/views/sentences.js"></script>
+<script src="js/views/settings.js"></script>
+<script src="js/views/about.js"></script>
+
+<script>
+(function () {
+  /* 이 스크립트는 body 맨 끝에 있으므로 DOM은 이미 준비되어 있다 */
+  function boot() {
+    KanaApp.router.init(document.getElementById('app'), document.getElementById('app-title'));
+    var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    if ('serviceWorker' in navigator && isLocal) {
+      /* 개발(로컬) 중에는 캐시가 옛 화면을 붙잡지 않게 SW를 쓰지 않고, 남아 있던 것도 지운다 */
+      navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }).catch(function () {});
+      if (window.caches) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }).catch(function () {});
+    } else if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  }
+  /* 인트로가 닫히기 전에는 라우터를 아예 초기화하지 않는다 → 뒤 화면이 마운트되지 않는다(PRD 3.11) */
+  if (KanaApp.introNeeded && KanaApp.introNeeded()) {
+    KanaApp.showIntro(boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
