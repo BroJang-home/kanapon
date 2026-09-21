@@ -15,9 +15,9 @@
   --line: rgba(22, 23, 26, 0.10);
   --line-2: rgba(22, 23, 26, 0.18);
 
-  --accent: #B1502E;
+  --accent: #2A5BD0;
   --accent-contrast: #FFFFFF;
-  --accent-soft: #F5E3DA;
+  --accent-soft: #E1E9F8;
 
   --shadow-modal: 0 16px 40px rgba(22, 23, 26, 0.16);
 
@@ -37,8 +37,8 @@
   --font-ui: 'Pretendard', system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', Roboto, sans-serif;
 
   /* 인트로 전용 색(고정, 테마 무관하게 라이트 기준값). 다크 오버라이드는 아래. */
-  --intro-bg: #F2542D;
-  --intro-ink: #FFF7F2;
+  --intro-bg: #2B5FD9;
+  --intro-ink: #F5F8FF;
 }
 
 html[data-theme="dark"] {
@@ -51,13 +51,13 @@ html[data-theme="dark"] {
   --line: rgba(255, 255, 255, 0.09);
   --line-2: rgba(255, 255, 255, 0.16);
 
-  --accent: #E2916A;
-  --accent-contrast: #1A0F08;
-  --accent-soft: #3A2A1E;
+  --accent: #8AB0F5;
+  --accent-contrast: #08111F;
+  --accent-soft: #1C2A42;
 
   --shadow-modal: none;
 
-  --intro-bg: #8A3317;
+  --intro-bg: #1B3A8A;
 }
 
 * { box-sizing: border-box; }
